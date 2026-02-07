@@ -1,4 +1,5 @@
 # HangPhapChinhHang
+<<<<<<< HEAD
 
 backend folder tree
 backend/
@@ -103,3 +104,5 @@ server.js # start server, connect db, handle shutdown
     Dockerfile
     docker-compose.yml
     README.md
+=======
+>>>>>>> origin/main
