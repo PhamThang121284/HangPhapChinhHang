@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const vi = {\n  siteName: 'Hàng Pháp Chính Hãng',\n  nav: {\n    home: 'Trang chủ',\n    products: 'Sản phẩm',\n    cart: 'Giỏ hàng',\n    account: 'Tài khoản',\n    admin: 'Quản trị'\n  },\n  actions: {\n    addToCart: 'Thêm vào giỏ',\n    checkout: 'Đặt hàng'\n  }\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

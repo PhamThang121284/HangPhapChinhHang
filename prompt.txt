@@ -1,0 +1,8 @@
+Give me a prompt for Codex to generate a web application to sell cosmetic made in france to Vietnam. This page must have basic functionalities : 
+- Login: login, register, password recovery,..., 
+- Cart: Add item, remove item, send order (no need to propose payment, since order will be treated by email)
+- Product page: filter by categories
+- User page: customer historics, habit, preference
+- Admin page: Possibility to add new products
+- Page name: Hang Phap Chinh Hang
+- Logo: Generate a logo 

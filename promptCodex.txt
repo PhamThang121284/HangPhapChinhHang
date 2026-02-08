@@ -1,0 +1,158 @@
+You are Codex acting as a senior fullstack engineer. Generate a production-ready web application named:
+
+HANG PHAP CHINH HANG
+(Sells authentic cosmetics made in France to customers in Vietnam)
+
+TECH STACK (must use):
+- Frontend: Angular 17+ + TypeScript + Angular Router + Reactive Forms + Angular Material (or Tailwind if you prefer, pick ONE and use consistently)
+- Backend: Node.js + Express + MongoDB + Mongoose
+- Auth: JWT (access + refresh), password hashing with bcrypt
+- Validation: zod (or joi) on backend
+- State/API: Angular HttpClient + Interceptors + RxJS (optionally Angular Signals if helpful)
+- Images: store image URLs (no file upload needed)
+- Email: Nodemailer for sending order emails and password recovery emails
+- Seed: provide a seed script for categories and a few demo products
+
+CORE REQUIREMENTS:
+1) Pages / Routes (Angular)
+Create a clean Angular app with these routes and guards:
+
+Public
+- / (Home): featured products + category navigation
+- /products: product listing with filters
+  - filter by category tree (Makeup/Skincare/Haircare/Fragrance/Tools/Sets/Men)
+  - search by name
+  - sort (newest, price asc/desc)
+  - pagination
+- /products/:slug: product detail
+  - image gallery
+  - variant selection (shade/size)
+  - add to cart
+- Auth pages:
+  - /auth/login
+  - /auth/register
+  - /auth/forgot-password
+  - /auth/reset-password?token=...
+
+Cart
+- /cart:
+  - add item
+  - update quantity
+  - remove item
+  - checkout "Place order" (NO payment)
+  - collect shipping address in Vietnam + phone number
+  - on place order: create Order in DB + send email to admin + confirmation email to customer
+
+User (protected)
+- /account:
+  - profile, addresses
+  - order history + order details
+  - preferences (marketing email/sms opt-in)
+  - habits section: recently viewed + frequently bought (derived from orders / stored minimally)
+
+Admin (protected + admin role)
+- /admin:
+  - list products
+  - create new product
+  - edit product
+  - activate/deactivate product
+  - manage stock per variant
+  - basic category assignment
+
+Frontend architecture requirements:
+- Use Angular standalone components (preferred) OR modules, but be consistent
+- Use a shared Core module/area for singleton services (AuthService, ApiService)
+- Implement AuthGuard and AdminGuard
+- Use an HTTP interceptor to attach access token and handle 401 refresh flow
+- Cart: store in localStorage; if user is logged in, optionally sync cart to backend (choose simplest robust approach)
+- Provide simple i18n structure (Vietnamese first, ready for English later) using a dictionary object or Angular i18n; keep it minimal but clean
+
+2) Backend API (Express)
+- Use feature-based folders:
+  - src/modules/auth, users, products, categories, orders
+  - middleware: error handler, auth guard, role guard, request validation
+- MongoDB Schemas:
+  - User: email/phone login, passwordHash, addresses, preferences, role
+  - Category: parentId, ancestors, level, path, slug, localized name (vi/en)
+  - Product: title, slug, brand, categories[], tags[], images[], hasVariants, variants[{price, inventory, options}], compliance fields (madeIn France, INCI), ratings aggregates
+  - Order: userId, items[{productId, variantId, qty, price}], shippingAddress, status (pending/confirmed/shipped/canceled), totals, createdAt
+- Auth endpoints:
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/login
+  - POST /api/v1/auth/refresh
+  - POST /api/v1/auth/logout
+  - POST /api/v1/auth/forgot-password (email token)
+  - POST /api/v1/auth/reset-password
+- Products:
+  - GET /api/v1/products?category=...&q=...&sort=...&page=...
+  - GET /api/v1/products/:slug
+  - POST /api/v1/products (admin)
+  - PUT /api/v1/products/:id (admin)
+- Categories:
+  - GET /api/v1/categories/tree
+- Orders:
+  - POST /api/v1/orders (creates order + sends email)
+  - GET /api/v1/orders/me (user history)
+  - GET /api/v1/orders/:id (owner/admin)
+
+3) Email Checkout (NO payment)
+- On checkout:
+  - Save order in MongoDB
+  - Send email to ADMIN_EMAIL with order summary (items, quantities, shipping address, phone, total)
+  - Send confirmation email to customer with order id and summary
+- Provide .env.example with:
+  - MONGO_URI
+  - JWT_SECRET / JWT_REFRESH_SECRET
+  - SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS
+  - ADMIN_EMAIL
+  - APP_URL
+  - CORS_ORIGIN (Angular dev URL)
+
+4) UI / Branding
+- Language: Vietnamese first, but keep labels ready for EN later
+- Site name displayed as: "Hàng Pháp Chính Hãng" (with diacritics)
+- Page title + metadata: "Hang Phap Chinh Hang"
+- Generate a simple SVG logo in code (no external assets):
+  - minimal icon combining a “France” vibe (e.g., Eiffel tower silhouette) + a cosmetic element (lipstick)
+  - include a wordmark "Hang Phap Chinh Hang"
+  - implement as an Angular component <app-logo />
+
+5) Quality requirements
+- Provide step-by-step setup instructions in README.md
+- Provide scripts:
+  - npm run dev (frontend)
+  - npm run dev (backend)
+  - npm run seed:categories
+  - npm run seed:demo-products
+- Use proper error handling, input validation, and secure auth practices
+- Add MongoDB indexes: product slug, user email/phone uniqueness, category tree fields, order userId
+- Do not include payment providers.
+- Do not use proprietary services. Use open-source libraries only.
+
+DELIVERABLES:
+- A monorepo structure (recommended):
+  /apps/web (Angular)
+  /apps/api (Express)
+  /packages/shared (types + validators)
+- Output the complete folder tree first, then generate key files fully:
+  Backend:
+    - apps/api/src/app.ts, server.ts, routes/index.ts
+    - each module: model, routes, controller, service, repository, schema
+  Frontend (Angular):
+    - main.ts, app.routes.ts, app.config.ts (or equivalent)
+    - core/services (auth, api, token storage)
+    - interceptors (auth + refresh)
+    - guards (auth + admin)
+    - pages/components for: home, products list, product detail, cart, auth, account, admin
+    - shared UI components (navbar, footer, product card, logo)
+  Shared package:
+    - TypeScript types for User/Product/Category/Order
+    - shared zod schemas (or DTO types)
+  README.md with commands and env
+- A test environment where I can interact with frontend for all possible actions
+  
+IMPORTANT:
+- Keep it simple but complete. Favor working code over excessive abstractions.
+- When something is optional, choose the simplest robust approach.
+- Ensure everything runs locally and routes match requirements exactly.
+
