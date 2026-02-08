@@ -1,0 +1,30 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background: #fafafa;
+  color: #1f2937;
+}
+
+main {
+  padding: 24px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}

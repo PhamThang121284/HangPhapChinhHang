@@ -1,108 +1,76 @@
-# HangPhapChinhHang
-<<<<<<< HEAD
+# Hàng Pháp Chính Hãng
 
-backend folder tree
-backend/
-src/
-app.js # express app: middlewares + routes mounted
-server.js # start server, connect db, handle shutdown
+Monorepo cho web bán mỹ phẩm Pháp chính hãng tại Việt Nam.
 
-        config/
-            env.js                   # env parsing/validation (zod/joi)
-            index.js                 # config export (port, db url, jwt, etc.)
+## Folder tree
+```
+/apps
+  /api
+    /scripts
+    /src
+      /config
+      /emails
+      /middleware
+      /modules
+        /auth
+        /categories
+        /orders
+        /products
+        /users
+      /routes
+      /utils
+  /web
+    /src
+      /app
+        /core
+        /pages
+        /shared
+      /assets
+      /environments
+/packages
+  /shared
+```
 
-        database/
-            mongo.js                 # mongoose connection + events
-            plugins/                 # mongoose plugins (toJSON, pagination...)
-            indexes.js               # optional: ensureIndexes at boot
+## Yêu cầu
+- Node.js 20+
+- MongoDB 6+
 
-        modules/
-            auth/
-                auth.routes.js
-                auth.controller.js
-                auth.service.js
-                auth.schema.js         # request validation schemas
-                auth.middleware.js     # auth guards, role checks
-                auth.tokens.js         # jwt helpers, refresh tokens
-            users/
-                user.model.js
-                user.routes.js
-                user.controller.js
-                user.service.js
-                user.repository.js
-                user.schema.js
-            products/
-                product.model.js
-                product.routes.js
-                product.controller.js
-                product.service.js
-                product.repository.js
-                product.schema.js
-            orders/
-                order.model.js
-                order.routes.js
-                order.controller.js
-                order.service.js
-                order.repository.js
-                order.schema.js
+## Cấu hình môi trường
+Sao chép file env mẫu:
+```
+cp apps/api/.env.example apps/api/.env
+```
 
-        middlewares/
-        errorHandler.js          # centralized error middleware
-        validateRequest.js       # validate req.body/params/query
-        rateLimiter.js
-        notFound.js
-        requireAuth.js           # verify jwt (or delegate to modules/auth)
-        requireRole.js
+## Môi trường test
+Tạo file môi trường test cho API:
+```
+cp apps/api/.env.test apps/api/.env.test.local
+```
 
-        utils/
-        asyncHandler.js          # wraps controllers to catch errors
-        ApiError.js              # custom error class
-        logger.js                # pino/winston
-        pagination.js
-        crypto.js                # hash helpers, token hashing
-        sanitize.js
+## Cài đặt dependencies
+```
+npm install
+```
 
-        integrations/
-        stripe/
-            stripe.client.js
-            stripe.webhooks.js
-        mail/
-            mailer.js              # nodemailer / provider SDK
-        shipping/
-            shipping.client.js
+## Chạy backend
+```
+cd apps/api
+npm run dev
+```
 
-        jobs/
-        queues.js                # bullmq / agenda init
-        workers/
-            sendEmail.worker.js
-            syncStock.worker.js
+## Chạy frontend
+```
+cd apps/web
+npm run dev
+```
 
-        routes/
-        index.js                 # combines all module routes, API versioning
-        health.routes.js         # /health
+## Seed dữ liệu
+```
+cd apps/api
+npm run seed:categories
+npm run seed:demo-products
+```
 
-        docs/
-        openapi.yml              # optional
-
-        constants/
-        roles.js
-        orderStatus.js
-
-        types/                     # only if TS; omit in JS projects
-        test/                      # if you prefer co-located tests, otherwise /tests
-
-    tests/
-    unit/
-    integration/
-
-    scripts/
-    seed.js # database seed
-    create-indexes.js # optional
-
-    .env.example
-    package.json
-    Dockerfile
-    docker-compose.yml
-    README.md
-=======
->>>>>>> origin/main
+## Ghi chú
+- API chạy mặc định tại http://localhost:5000
+- Frontend chạy tại http://localhost:4200
